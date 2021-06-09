@@ -45,8 +45,10 @@ export class BelleBanner extends LitElement {
     return html`
       <div>
       <p style="text-align: center;">
-      <img alt="" src="${this.bannerImages[this.sliderIndex]}" 
-           style="width: ${this.bannerWidth}px; height: ${this.bannerHeight}px; border-width: 2px; border-style: solid; margin: 1px;" /></p>
+      <a href="${this.bannerLinks[this.sliderIndex]}" target="_blank" rel="noopener noreferrer">
+        <img alt="" src="${this.bannerImages[this.sliderIndex]}" 
+           style="width: ${this.bannerWidth}px; height: ${this.bannerHeight}px; border-width: 2px; border-style: solid; margin: 1px;" />
+      </a></p>
       </div>
     `;
   }
