@@ -43,14 +43,16 @@ export class BelleBanner extends LitElement {
 
   render() {
     return html`
-      <div>
-      <p style="text-align: center;">
-      <a href="${this.bannerLinks[this.sliderIndex]}" target="_blank" rel="noopener noreferrer">
-        <img alt="" src="${this.bannerImages[this.sliderIndex]}" 
-           style="width: ${this.bannerWidth}px; height: ${this.bannerHeight}px; border-width: 2px; border-style: solid; margin: 1px;" />
-      </a></p>
-      </div>
-    `;
+      ${this.bannerImages.map((bannerImage, idx) => html`
+        <div>
+          <p style="text-align: center;">
+          <a href="${this.bannerLinks[idx]}" target="_blank" rel="noopener noreferrer">
+            <img alt="" src="${this.bannerImages[idx]}" 
+              style="width: ${this.bannerWidth}px; height: ${this.bannerHeight}px; border-width: 2px; border-style: solid; margin: 1px;" />
+          </a>
+          </p>
+        </div>`)
+      }`;
   }
 
   set sliderIndex(value) {
@@ -59,5 +61,11 @@ export class BelleBanner extends LitElement {
 
   get sliderIndex() {
     return this._sliderIndex;
+  }
+
+  renderBanner(id) {
+    if (id >= 0 && id < this.bannerImages.length) {
+        return '';
+    }
   }
 }
