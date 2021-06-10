@@ -39,20 +39,37 @@ export class BelleBanner extends LitElement {
 					display: block;
 					overflow: visible;
 				}
+
+        [data-component="slideshow"] .slide {
+          display: none;
+        }
+
+        [data-component="slideshow"] .slide.active {
+          display: block;
+        }
       }`;
 
   render() {
     return html`
-      ${this.bannerImages.map((bannerImage, idx) => html`
-        <div>
-          <p style="text-align: center;">
-          <a href="${this.bannerLinks[idx]}" target="_blank" rel="noopener noreferrer">
-            <img alt="" src="${this.bannerImages[idx]}" 
-              style="width: ${this.bannerWidth}px; height: ${this.bannerHeight}px; border-width: 2px; border-style: solid; margin: 1px;" />
-          </a>
-          </p>
-        </div>`)
-      }`;
+      <div id="banner-slider" data-component="slideshow">
+        <div role="list">
+          ${this.bannerImages.map((bannerImage, index) => html`
+            <div class="slide">
+              <p style="text-align: center;">
+              <a href="${this.bannerLinks[index]}" target="_blank" rel="noopener noreferrer">
+                <img alt="" src="${this.bannerImages[index]}" 
+                  style="width: ${this.bannerWidth}px; height: ${this.bannerHeight}px; border-width: 2px; border-style: solid; margin: 1px;" />
+              </a>
+              </p>
+            </div>`)
+          }
+        </div>
+      </div>
+    `;
+  }
+
+  firstUpdated() {
+    this.initializeBanners();
   }
 
   set sliderIndex(value) {
@@ -63,9 +80,30 @@ export class BelleBanner extends LitElement {
     return this._sliderIndex;
   }
 
-  renderBanner(id) {
-    if (id >= 0 && id < this.bannerImages.length) {
-        return '';
-    }
+  initializeBanners() {
+    var slideshows = this.shadowRoot.querySelectorAll('[data-component="slideshow"]');
+  
+    // Apply to all slideshows that you define with the markup wrote
+    slideshows.forEach(this.initializeSlideShow.bind(this));
+  }
+
+  initializeSlideShow(slideshow) {
+    var slides = this.shadowRoot.querySelectorAll(`#${slideshow.id} [role="list"] .slide`);
+
+    var index = 0, time = 5000;
+    slides[index].classList.add('active');  
+    
+    setInterval( () => {
+      slides[index].classList.remove('active');
+      
+      //Go over each slide incrementing the index
+      index++;
+      
+      // If you go over all slides, restart the index to show the first slide and start again
+      if (index === slides.length) index = 0; 
+      
+      slides[index].classList.add('active');
+
+    }, time);
   }
 }
