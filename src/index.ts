@@ -35,9 +35,9 @@ export class BelleBanner extends LitElement {
 
   static styles = css`
         :host {
-					position: relative;
-					display: block;
-					overflow: visible;
+          position: relative;
+          display: block;
+          overflow: visible;
 				}
 
         [data-component="slideshow"] .slide {
